@@ -1,4 +1,4 @@
-# 🔥 Sistema de Emergência - Global Solution
+# 🔥 SafaZone - Sistema de Emergência
 
 Este projeto foi desenvolvido como parte da **Global Solution** da FIAP, abordando o tema **Clima Extremo – Queimadas**. A proposta consiste em criar um sistema funcional que auxilie a população em situações de emergência, fornecendo orientações, contatos úteis e alertas de risco.
 
