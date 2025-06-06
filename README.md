@@ -16,6 +16,7 @@ Desenvolver uma aplicação simples em **Java** que simula um sistema de conscie
 
 ## 📦 Estrutura do Projeto
 
+```
 /src
 │
 ├── Main.java
@@ -25,7 +26,7 @@ Desenvolver uma aplicação simples em **Java** que simula um sistema de conscie
 │ └── Emergencia.java
 ├── views/
 └── MenuView.java
-
+```
 
 ## ✅ Funcionalidades
 
