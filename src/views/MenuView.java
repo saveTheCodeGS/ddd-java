@@ -47,8 +47,17 @@ public class MenuView {
         String tipo = JOptionPane.showInputDialog("Tipo de emergência (Queimada, Enchente, etc.):");
         String descricao = JOptionPane.showInputDialog("Descreva a emergência:");
         String localizacao = JOptionPane.showInputDialog("Informe sua localização (bairro, cidade):");
+        String nivelStr = JOptionPane.showInputDialog("Qual o nível de risco (0 a 10)?");
 
-        controller.registrarEmergencia(tipo, descricao, localizacao);
+        int nivel;
+        try {
+            nivel = Integer.parseInt(nivelStr);
+        } catch (NumberFormatException e) {
+            JOptionPane.showMessageDialog(null, "Nível de risco inválido. Emergência não registrada.");
+            return;
+        }
+
+        controller.registrarEmergencia(tipo, descricao, localizacao, nivel);
         JOptionPane.showMessageDialog(null, "Emergência registrada com sucesso!");
     }
 
@@ -66,33 +75,46 @@ public class MenuView {
     }
 
     private void mostrarDicas() {
-        String tipo = JOptionPane.showInputDialog("Para qual tipo de emergência deseja as dicas? (Queimada, Enchente, Deslizamento)");
+        String[] opcoes = {"Queimada", "Enchente", "Deslizamento", "Cancelar"};
+        int escolha = JOptionPane.showOptionDialog(
+                null,
+                "Escolha o tipo de emergência para ver as dicas:",
+                "Dicas de Sobrevivência",
+                JOptionPane.DEFAULT_OPTION,
+                JOptionPane.INFORMATION_MESSAGE,
+                null,
+                opcoes,
+                opcoes[0]
+        );
 
-        String dicas = switch (tipo.toLowerCase()) {
+        if (escolha == -1 || escolha == 3) return; // Cancelado ou fechou a janela
+
+        String dicas = switch (opcoes[escolha].toLowerCase()) {
             case "queimada" -> """
-                    🔥 Dicas para Queimadas:
-                    - Mantenha-se longe da fumaça.
-                    - Molhe panos e use no rosto.
-                    - Feche portas e janelas.
-                    - Busque abrigo em locais seguros.
-                    """;
+                🔥 Dicas para Queimadas:
+                - Mantenha-se longe da fumaça.
+                - Molhe panos e use no rosto.
+                - Feche portas e janelas.
+                - Busque abrigo em locais seguros.
+                """;
             case "enchente" -> """
-                    🌊 Dicas para Enchentes:
-                    - Evite atravessar áreas alagadas.
-                    - Desligue energia elétrica.
-                    - Procure locais altos.
-                    """;
+                🌊 Dicas para Enchentes:
+                - Evite atravessar áreas alagadas.
+                - Desligue energia elétrica.
+                - Procure locais altos.
+                """;
             case "deslizamento" -> """
-                    🏔️ Dicas para Deslizamentos:
-                    - Observe rachaduras nas paredes.
-                    - Saia imediatamente se notar sinais de deslizamento.
-                    - Procure locais seguros e afastados de encostas.
-                    """;
+                🏔️ Dicas para Deslizamentos:
+                - Observe rachaduras nas paredes.
+                - Saia imediatamente se notar sinais de deslizamento.
+                - Procure locais seguros e afastados de encostas.
+                """;
             default -> "Tipo de emergência não reconhecido.";
         };
 
         JOptionPane.showMessageDialog(null, dicas);
     }
+
 
     private void mostrarAlertas() {
         String alerta = """
@@ -111,7 +133,7 @@ public class MenuView {
         } else {
             StringBuilder sb = new StringBuilder();
             for (Emergencia e : lista) {
-                sb.append(e.toString()).append("\n\n");
+                sb.append(e.gerarResumo()).append("\n\n");
             }
             JOptionPane.showMessageDialog(null, sb.toString());
         }
